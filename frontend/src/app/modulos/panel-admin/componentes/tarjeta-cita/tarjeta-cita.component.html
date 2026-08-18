@@ -1,0 +1,31 @@
+<div class="bg-gris-carbon border border-white/5 rounded-xl p-4 flex items-center gap-3" [class.opacity-60]="cita.estado === 'cancelada'">
+  <div class="text-center w-12 shrink-0">
+    <p
+      class="font-bold text-sm"
+      [ngClass]="{
+        'text-dorado': cita.estado === 'pendiente',
+        'text-green-500': cita.estado === 'completada',
+        'text-crema/40 line-through': cita.estado === 'cancelada'
+      }"
+    >
+      {{ cita.hora }}
+    </p>
+  </div>
+  <div class="flex-1 min-w-0">
+    <p class="font-semibold truncate">{{ cita.cliente.nombreCompleto }}</p>
+    <p class="text-crema/40 text-xs truncate">
+      {{ obtenerNombrePrimerServicio(cita) }} · {{ cita.barbero.nombreCompleto }}
+    </p>
+  </div>
+
+  <select
+    class="text-[11px] font-semibold px-2.5 py-1 rounded-full shrink-0 bg-transparent border-none outline-none"
+    [class]="claseEstado[cita.estado]"
+    [value]="cita.estado"
+    (change)="alCambiarEstado.emit($any($event.target).value)"
+  >
+    <option value="pendiente">Pendiente</option>
+    <option value="completada">Completada</option>
+    <option value="cancelada">Cancelada</option>
+  </select>
+</div>

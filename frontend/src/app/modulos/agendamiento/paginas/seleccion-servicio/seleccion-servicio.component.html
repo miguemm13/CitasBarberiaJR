@@ -1,0 +1,21 @@
+<app-barra-progreso [pasoActual]="1" [totalPasos]="4"></app-barra-progreso>
+
+<section class="px-5 pt-5 pb-4">
+  <h2 class="fuente-display text-2xl font-bold mb-1">Elige tu servicio</h2>
+  <p class="text-crema/50 text-sm mb-5">Selecciona un servicio para tu cita.</p>
+
+  <div class="space-y-3">
+    <app-tarjeta-servicio
+      *ngFor="let servicio of servicios"
+      [servicio]="servicio"
+      [seleccionado]="estaSeleccionado(servicio)"
+      (alSeleccionar)="estado.seleccionarServicio($event)"
+    ></app-tarjeta-servicio>
+  </div>
+</section>
+
+<app-boton-primario
+  etiqueta="Continuar"
+  [deshabilitado]="estado.serviciosSeleccionados().length === 0"
+  (alPresionar)="continuar()"
+></app-boton-primario>

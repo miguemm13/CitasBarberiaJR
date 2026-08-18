@@ -1,0 +1,9 @@
+# Cada carpeta (backend/, frontend/) ya tiene su propio .gitignore
+# para node_modules, dist, .env, *.sqlite, etc. Este archivo es solo
+# para archivos "sueltos" a nivel de todo el proyecto.
+
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

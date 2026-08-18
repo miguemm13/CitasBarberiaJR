@@ -1,0 +1,52 @@
+<app-barra-progreso [pasoActual]="4" [totalPasos]="4"></app-barra-progreso>
+
+<section class="px-5 pt-5 pb-4">
+  <h2 class="fuente-display text-2xl font-bold mb-1">Confirma tu cita</h2>
+  <p class="text-crema/50 text-sm mb-5">Revisa el resumen antes de confirmar.</p>
+
+  <div class="bg-gris-carbon border border-dorado/30 rounded-2xl p-5 space-y-4">
+    <div class="flex justify-between items-start pb-4 border-b border-white/5">
+      <div>
+        <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Servicio</p>
+        <p class="font-semibold" *ngFor="let servicio of estado.serviciosSeleccionados()">{{ servicio.nombre }}</p>
+      </div>
+      <div class="text-right">
+        <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Precio</p>
+        <p class="text-dorado font-bold">{{ estado.precioTotal() | monedaClp }}</p>
+      </div>
+    </div>
+    <div class="pb-4 border-b border-white/5">
+      <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Barbero</p>
+      <p class="font-semibold">Javier Revette</p>
+    </div>
+    <div class="flex justify-between pb-4 border-b border-white/5">
+      <div>
+        <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Fecha</p>
+        <p class="font-semibold">{{ estado.fechaSeleccionada() }}</p>
+      </div>
+      <div class="text-right">
+        <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Hora</p>
+        <p class="font-semibold">{{ estado.horaSeleccionada() }}</p>
+      </div>
+    </div>
+    <div>
+      <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Cliente</p>
+      <p class="font-semibold">{{ estado.cliente()?.nombreCompleto }}</p>
+    </div>
+  </div>
+</section>
+
+<div class="sticky bottom-0 w-full px-5 pb-6 pt-3 bg-gradient-to-t from-negro-mate via-negro-mate to-transparent">
+  <button
+    type="button"
+    [disabled]="enviando"
+    (click)="confirmarCita()"
+    class="w-full bg-dorado hover:bg-dorado-suave text-negro-mate font-bold py-4 rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform disabled:opacity-90"
+  >
+    <span
+      *ngIf="enviando"
+      class="w-5 h-5 border-2 border-negro-mate/30 border-t-negro-mate rounded-full animate-spin"
+    ></span>
+    {{ enviando ? 'Enviando...' : 'Confirmar Cita' }}
+  </button>
+</div>

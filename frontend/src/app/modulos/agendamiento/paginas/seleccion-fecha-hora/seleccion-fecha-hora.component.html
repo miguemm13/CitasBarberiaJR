@@ -1,0 +1,68 @@
+<app-barra-progreso [pasoActual]="2" [totalPasos]="4"></app-barra-progreso>
+
+<section class="px-5 pt-5 pb-4">
+  <h2 class="fuente-display text-2xl font-bold mb-1">Fecha y hora</h2>
+  <p class="text-crema/50 text-sm mb-5">Elige el día y un horario disponible.</p>
+
+  <div class="flex items-center justify-between mb-3">
+    <button
+      type="button"
+      (click)="irMesAnterior()"
+      [disabled]="!puedeIrMesAnterior"
+      class="w-8 h-8 rounded-lg bg-gris-carbon flex items-center justify-center text-crema/70 disabled:opacity-20 disabled:pointer-events-none"
+    >
+      ‹
+    </button>
+    <p class="font-semibold text-sm capitalize">{{ etiquetaMes }}</p>
+    <button
+      type="button"
+      (click)="irMesSiguiente()"
+      class="w-8 h-8 rounded-lg bg-gris-carbon flex items-center justify-center text-crema/70"
+    >
+      ›
+    </button>
+  </div>
+
+  <div class="grid grid-cols-7 gap-1 mb-1 text-center">
+    <span *ngFor="let nombre of nombresDias" class="text-[10px] uppercase text-crema/30 py-1">{{ nombre }}</span>
+  </div>
+
+  <div class="grid grid-cols-7 gap-1 mb-6">
+    <ng-container *ngFor="let semana of semanas">
+      <button
+        *ngFor="let celda of semana"
+        type="button"
+        [disabled]="!celda.habilitado"
+        (click)="seleccionarDia(celda)"
+        class="aspect-square rounded-lg text-sm font-medium flex items-center justify-center"
+        [ngClass]="{
+          invisible: celda.numero === null,
+          'bg-dorado text-negro-mate font-bold': celda.fecha && celda.fecha === estado.fechaSeleccionada(),
+          'bg-gris-carbon border border-white/10 text-crema': celda.habilitado && celda.fecha !== estado.fechaSeleccionada(),
+          'opacity-20 cursor-not-allowed': celda.numero !== null && !celda.habilitado
+        }"
+      >
+        {{ celda.numero }}
+      </button>
+    </ng-container>
+  </div>
+
+  <p class="text-sm font-semibold text-crema/50 uppercase tracking-wider mb-3">Horarios disponibles</p>
+  <app-selector-horario
+    *ngIf="estado.fechaSeleccionada(); else sinFecha"
+    [horarios]="horarios"
+    [horaSeleccionada]="estado.horaSeleccionada()"
+    (alSeleccionar)="seleccionarHora($event)"
+  ></app-selector-horario>
+  <ng-template #sinFecha>
+    <p class="text-crema/30 text-sm mb-4">Selecciona un día para ver los horarios.</p>
+  </ng-template>
+
+  <p class="text-xs text-crema/30">Los horarios tachados ya están ocupados. Horario: 10am a 8pm.</p>
+</section>
+
+<app-boton-primario
+  etiqueta="Continuar"
+  [deshabilitado]="!estado.horaSeleccionada()"
+  (alPresionar)="continuar()"
+></app-boton-primario>

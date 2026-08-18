@@ -1,0 +1,29 @@
+<section class="px-5 pt-6 pb-10">
+  <div class="flex items-center justify-between mb-1">
+    <h2 class="fuente-display text-2xl font-bold">Agenda de hoy</h2>
+  </div>
+  <p class="text-crema/50 text-sm mb-5">{{ fechaSeleccionada }} · {{ citas.length }} citas</p>
+
+  <div class="grid grid-cols-3 gap-2 mb-6">
+    <div class="bg-gris-carbon rounded-xl p-3 text-center border border-white/5">
+      <p class="text-xl font-bold text-dorado">{{ contarPorEstado('pendiente') }}</p>
+      <p class="text-[11px] text-crema/40 uppercase">Pendientes</p>
+    </div>
+    <div class="bg-gris-carbon rounded-xl p-3 text-center border border-white/5">
+      <p class="text-xl font-bold text-green-500">{{ contarPorEstado('completada') }}</p>
+      <p class="text-[11px] text-crema/40 uppercase">Completadas</p>
+    </div>
+    <div class="bg-gris-carbon rounded-xl p-3 text-center border border-white/5">
+      <p class="text-xl font-bold text-red-500">{{ contarPorEstado('cancelada') }}</p>
+      <p class="text-[11px] text-crema/40 uppercase">Canceladas</p>
+    </div>
+  </div>
+
+  <div class="space-y-3">
+    <app-tarjeta-cita
+      *ngFor="let cita of citas"
+      [cita]="cita"
+      (alCambiarEstado)="actualizarEstado(cita, $event)"
+    ></app-tarjeta-cita>
+  </div>
+</section>

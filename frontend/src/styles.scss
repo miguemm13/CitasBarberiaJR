@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #04101F; /* fondo-pagina: telón de fondo detrás de la tarjeta centrada */
+  font-family: 'Inter', sans-serif;
+}
+
+.fuente-display {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Oculta la barra de scroll visualmente sin perder el scroll funcional,
+   igual que en el prototipo de diseno/estilos.css */
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

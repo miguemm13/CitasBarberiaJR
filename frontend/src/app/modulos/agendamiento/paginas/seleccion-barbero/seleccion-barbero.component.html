@@ -1,0 +1,17 @@
+<app-barra-progreso [pasoActual]="2" [totalPasos]="5"></app-barra-progreso>
+
+<section class="px-5 pt-5 pb-4">
+  <h2 class="fuente-display text-2xl font-bold mb-1">Elige tu barbero</h2>
+  <p class="text-crema/50 text-sm mb-5">Opcional. Puedes dejar que asignemos al mejor disponible.</p>
+
+  <div class="space-y-3">
+    <app-tarjeta-barbero
+      *ngFor="let barbero of barberos"
+      [barbero]="barbero"
+      [seleccionado]="estado.barberoSeleccionado().id === barbero.id"
+      (alSeleccionar)="seleccionar($event)"
+    ></app-tarjeta-barbero>
+  </div>
+</section>
+
+<app-boton-primario etiqueta="Continuar" (alPresionar)="continuar()"></app-boton-primario>

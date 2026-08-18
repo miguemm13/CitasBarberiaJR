@@ -1,0 +1,39 @@
+/* Estilos personalizados del prototipo (fuera de las utilidades de Tailwind). */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.fuente-display {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Oculta la barra de scroll visualmente sin perder el scroll funcional */
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Navegación entre "vistas" (equivalente a los pasos del asistente) */
+.vista {
+  display: none;
+}
+.vista.activa {
+  display: block;
+  animation: aparecer 0.25s ease;
+}
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

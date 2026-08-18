@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Barbería Nº7 · Agendar Cita</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
+<script src="configuracion-tailwind.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body class="bg-fondo-pagina text-crema min-h-[100dvh]">
+
+<div class="min-h-[100dvh] w-full flex items-center justify-center py-6 px-3">
+  <div id="tarjeta-app" class="w-full max-w-[430px] max-h-[92dvh] overflow-y-auto bg-negro-mate relative rounded-3xl shadow-2xl shadow-black/60 border border-white/10">
+
+  <!-- ============================================================ -->
+  <!-- BARRA DE PROGRESO DEL ASISTENTE (solo visible durante pasos)  -->
+  <!-- ============================================================ -->
+  <div id="barra-progreso" class="hidden sticky top-0 z-30 bg-negro-mate/95 backdrop-blur border-b border-white/5 px-5 pt-4 pb-3">
+    <div class="flex items-center justify-between mb-2">
+      <button onclick="irAVista('vista-inicio')" class="text-crema/60 text-sm flex items-center gap-1">
+        <span aria-hidden="true">←</span> Salir
+      </button>
+      <span id="etiqueta-paso" class="text-xs uppercase tracking-widest text-dorado font-semibold">Paso 1 de 4</span>
+    </div>
+    <div class="h-1 w-full bg-gris-carbon-claro rounded-full overflow-hidden">
+      <div id="barra-progreso-fill" class="h-full bg-dorado rounded-full transition-all duration-300" style="width:20%"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- HEADER / HERO SECTION                                        -->
+  <!-- ============================================================ -->
+  <section id="vista-inicio" class="vista activa">
+    <header class="relative px-6 pt-10 pb-8 overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-64 h-64 bg-dorado/10 rounded-full blur-3xl"></div>
+
+      <div class="flex items-center justify-between mb-8">
+        <div class="w-11 h-11 rounded-full border border-dorado flex items-center justify-center">
+          <span class="fuente-display text-dorado font-bold">N7</span>
+        </div>
+      </div>
+
+      <p class="text-dorado text-xs font-semibold tracking-[0.25em] uppercase mb-2">Barbería de alta gama</p>
+      <h1 class="fuente-display text-4xl font-bold leading-tight mb-3">Barbería<br/><span class="text-dorado">Nº7</span></h1>
+      <p class="text-crema/60 text-sm mb-6">Tradición, precisión y estilo en cada corte.</p>
+
+      <div class="flex items-center gap-2 text-sm text-crema/70 mb-8">
+        <span aria-hidden="true">📍</span>
+        <span>Av. Principal de la hacienda Ud6</span>
+      </div>
+
+      <button onclick="irAVista('vista-servicio')" class="w-full bg-dorado hover:bg-dorado-suave text-negro-mate font-bold text-base py-4 rounded-xl shadow-lg shadow-dorado/30 transition-colors active:scale-[0.98]">
+        Agendar Cita
+      </button>
+    </header>
+
+    <!-- Vista previa rápida: servicios destacados -->
+    <div class="px-6 mt-2">
+      <h2 class="text-sm font-semibold text-crema/50 uppercase tracking-wider mb-3">Servicios destacados</h2>
+      <div class="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+        <div class="min-w-[140px] bg-gris-carbon rounded-xl p-4 border border-white/5">
+          <p class="text-2xl mb-2">✂️</p>
+          <p class="text-sm font-semibold">Corte de Cabello</p>
+          <p class="text-dorado text-sm font-bold mt-1">$10</p>
+        </div>
+        <div class="min-w-[140px] bg-gris-carbon rounded-xl p-4 border border-white/5">
+          <p class="text-2xl mb-2">🪒</p>
+          <p class="text-sm font-semibold">Corte con Barba</p>
+          <p class="text-dorado text-sm font-bold mt-1">$15</p>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="irAVista('vista-admin')" class="block mx-auto mt-10 mb-8 text-xs text-crema/30 underline">Ver panel de barbero (admin)</button>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PASO 1 · SELECCIÓN DE SERVICIO                                -->
+  <!-- ============================================================ -->
+  <section id="vista-servicio" class="vista px-5 pt-5">
+    <h2 class="fuente-display text-2xl font-bold mb-1">Elige tu servicio</h2>
+    <p class="text-crema/50 text-sm mb-5">Selecciona un servicio para tu cita.</p>
+
+    <div class="space-y-3" id="lista-servicios">
+      <!-- Tarjeta de servicio -->
+      <button class="tarjeta-servicio w-full text-left bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-4 transition-colors" data-servicio="Corte de Cabello" data-precio="10" data-duracion="30">
+        <div class="w-12 h-12 rounded-lg bg-negro-mate flex items-center justify-center text-xl shrink-0">✂️</div>
+        <div class="flex-1">
+          <p class="font-semibold">Corte de Cabello</p>
+          <p class="text-crema/40 text-xs mt-0.5">⏱ 30 min</p>
+        </div>
+        <div class="text-right">
+          <p class="text-dorado font-bold">$10</p>
+        </div>
+      </button>
+
+      <button class="tarjeta-servicio w-full text-left bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-4 transition-colors" data-servicio="Corte de Cabello con Barba" data-precio="15" data-duracion="45">
+        <div class="w-12 h-12 rounded-lg bg-negro-mate flex items-center justify-center text-xl shrink-0">🪒</div>
+        <div class="flex-1">
+          <p class="font-semibold">Corte de Cabello con Barba</p>
+          <p class="text-crema/40 text-xs mt-0.5">⏱ 45 min</p>
+        </div>
+        <div class="text-right">
+          <p class="text-dorado font-bold">$15</p>
+        </div>
+      </button>
+    </div>
+
+    <div class="sticky bottom-0 w-full -mx-5 px-5 pb-6 pt-3 mt-4 bg-gradient-to-t from-negro-mate via-negro-mate to-transparent">
+      <button onclick="irAVista('vista-fecha-hora')" class="w-full bg-dorado hover:bg-dorado-suave text-negro-mate font-bold py-4 rounded-xl active:scale-[0.98] transition-transform">
+        Continuar
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PASO 2 · FECHA Y HORA                                        -->
+  <!-- ============================================================ -->
+  <section id="vista-fecha-hora" class="vista px-5 pt-5">
+    <h2 class="fuente-display text-2xl font-bold mb-1">Fecha y hora</h2>
+    <p class="text-crema/50 text-sm mb-5">Elige el día y un horario disponible.</p>
+
+    <!-- Calendario mensual completo (generado por interactividad.js) -->
+    <div class="flex items-center justify-between mb-3">
+      <button type="button" id="boton-mes-anterior" class="w-8 h-8 rounded-lg bg-gris-carbon flex items-center justify-center text-crema/70 disabled:opacity-20 disabled:pointer-events-none">‹</button>
+      <p id="etiqueta-mes" class="font-semibold text-sm capitalize"></p>
+      <button type="button" id="boton-mes-siguiente" class="w-8 h-8 rounded-lg bg-gris-carbon flex items-center justify-center text-crema/70">›</button>
+    </div>
+    <div class="grid grid-cols-7 gap-1 mb-1 text-center" id="cabecera-dias"></div>
+    <div class="grid grid-cols-7 gap-1 mb-6" id="grid-calendario"></div>
+
+    <p class="text-sm font-semibold text-crema/50 uppercase tracking-wider mb-3">Horarios disponibles</p>
+    <div class="grid grid-cols-3 gap-2 mb-4" id="grid-horarios">
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="10:00">10:00</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="10:30">10:30</button>
+      <button class="py-3 rounded-lg bg-gris-carbon/30 text-crema/20 text-sm font-medium line-through cursor-not-allowed" disabled>11:00</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="11:30">11:30</button>
+      <button class="py-3 rounded-lg bg-gris-carbon/30 text-crema/20 text-sm font-medium line-through cursor-not-allowed" disabled>12:00</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="12:30">12:30</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="1:00">1:00</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="1:30">1:30</button>
+      <button class="py-3 rounded-lg bg-gris-carbon/30 text-crema/20 text-sm font-medium line-through cursor-not-allowed" disabled>2:00</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="2:30">2:30</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="3:00">3:00</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="3:30">3:30</button>
+    </div>
+    <p class="text-xs text-crema/30 flex items-center gap-1.5"><span class="w-2 h-2 rounded bg-gris-carbon/30 inline-block"></span> Horarios tachados ya están ocupados · Horario: 10am a 8pm</p>
+
+    <div class="sticky bottom-0 w-full -mx-5 px-5 pb-6 pt-3 mt-4 bg-gradient-to-t from-negro-mate via-negro-mate to-transparent">
+      <button onclick="irAVista('vista-cliente')" class="w-full bg-dorado hover:bg-dorado-suave text-negro-mate font-bold py-4 rounded-xl active:scale-[0.98] transition-transform">
+        Continuar
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PASO 3 · DATOS DEL CLIENTE                                    -->
+  <!-- ============================================================ -->
+  <section id="vista-cliente" class="vista px-5 pt-5">
+    <h2 class="fuente-display text-2xl font-bold mb-1">Tus datos</h2>
+    <p class="text-crema/50 text-sm mb-5">Los usaremos solo para confirmar tu cita.</p>
+
+    <form class="space-y-4" id="formulario-cliente" onsubmit="event.preventDefault(); irAVista('vista-confirmacion');">
+      <div>
+        <label class="text-xs font-semibold text-crema/50 uppercase tracking-wider mb-2 block">Nombre y apellido</label>
+        <input type="text" required placeholder="Ej. Juan Pérez" id="campo-nombre"
+          class="w-full bg-gris-carbon border border-white/10 rounded-xl px-4 py-3.5 text-crema placeholder-crema/25 focus:outline-none focus:border-dorado transition-colors" />
+      </div>
+      <div>
+        <label class="text-xs font-semibold text-crema/50 uppercase tracking-wider mb-2 block">Nota adicional (opcional)</label>
+        <textarea rows="3" placeholder="Ej. Prefiero corte bajo en los lados"
+          class="w-full bg-gris-carbon border border-white/10 rounded-xl px-4 py-3.5 text-crema placeholder-crema/25 focus:outline-none focus:border-dorado transition-colors resize-none"></textarea>
+      </div>
+    </form>
+
+    <div class="sticky bottom-0 w-full -mx-5 px-5 pb-6 pt-3 mt-4 bg-gradient-to-t from-negro-mate via-negro-mate to-transparent">
+      <button type="submit" form="formulario-cliente" class="w-full bg-dorado hover:bg-dorado-suave text-negro-mate font-bold py-4 rounded-xl active:scale-[0.98] transition-transform">
+        Revisar y Confirmar
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PASO 4 · CONFIRMACIÓN                                        -->
+  <!-- ============================================================ -->
+  <section id="vista-confirmacion" class="vista px-5 pt-5">
+    <h2 class="fuente-display text-2xl font-bold mb-1">Confirma tu cita</h2>
+    <p class="text-crema/50 text-sm mb-5">Revisa el resumen antes de confirmar.</p>
+
+    <div class="bg-gris-carbon border border-dorado/30 rounded-2xl p-5 space-y-4">
+      <div class="flex justify-between items-start pb-4 border-b border-white/10">
+        <div>
+          <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Servicio</p>
+          <p class="font-semibold" id="resumen-servicio">Corte de Cabello</p>
+        </div>
+        <div class="text-right">
+          <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Precio</p>
+          <p class="text-dorado font-bold" id="resumen-precio">$10</p>
+        </div>
+      </div>
+      <div class="flex justify-between pb-4 border-b border-white/10">
+        <div>
+          <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Barbero</p>
+          <p class="font-semibold">Javier Revette</p>
+        </div>
+      </div>
+      <div class="flex justify-between pb-4 border-b border-white/10">
+        <div>
+          <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Fecha</p>
+          <p class="font-semibold" id="resumen-fecha">Jue 13 Ago</p>
+        </div>
+        <div class="text-right">
+          <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Hora</p>
+          <p class="font-semibold" id="resumen-hora">10:00</p>
+        </div>
+      </div>
+      <div>
+        <p class="text-xs text-crema/40 uppercase tracking-wider mb-1">Cliente</p>
+        <p class="font-semibold" id="resumen-cliente">Juan Pérez</p>
+      </div>
+    </div>
+
+    <div class="sticky bottom-0 w-full -mx-5 px-5 pb-6 pt-3 mt-4 bg-gradient-to-t from-negro-mate via-negro-mate to-transparent">
+      <button id="boton-confirmar-cita" onclick="confirmarCitaDemo()" class="w-full bg-dorado hover:bg-dorado-suave text-negro-mate font-bold py-4 rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+        <span id="spinner-confirmar-cita" class="hidden w-5 h-5 border-2 border-negro-mate/30 border-t-negro-mate rounded-full animate-spin"></span>
+        <span id="texto-confirmar-cita">Confirmar Cita</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ÉXITO                                                        -->
+  <!-- ============================================================ -->
+  <section id="vista-exito" class="vista min-h-[75vh] px-6 py-10">
+    <div class="h-full flex flex-col items-center justify-center text-center">
+      <div class="w-20 h-20 mx-auto rounded-full bg-dorado/15 border border-dorado flex items-center justify-center text-4xl mb-6">🎉</div>
+      <h2 class="fuente-display text-2xl font-bold mb-2">¡Cita confirmada!</h2>
+      <p class="text-crema/50 text-sm mb-8">Te esperamos el <span class="text-crema">Jue 13 Ago a las 10:00</span>. Ya avisamos a tu barbero.</p>
+      <button onclick="irAVista('vista-inicio')" class="w-full bg-dorado hover:bg-dorado-suave text-negro-mate font-bold py-4 rounded-xl active:scale-[0.98] transition-transform">
+        Volver al inicio
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PANEL / VISTA DE BARBERO (ADMIN)                              -->
+  <!-- ============================================================ -->
+  <section id="vista-admin" class="vista px-5 pt-6 pb-8">
+    <div class="flex items-center justify-between mb-1">
+      <h2 class="fuente-display text-2xl font-bold">Agenda de hoy</h2>
+      <button onclick="irAVista('vista-inicio')" class="text-crema/40 text-xl leading-none">✕</button>
+    </div>
+    <p class="text-crema/50 text-sm mb-5">Jueves 13 de agosto · 6 citas</p>
+
+    <div class="grid grid-cols-3 gap-2 mb-6">
+      <div class="bg-gris-carbon rounded-xl p-3 text-center border border-white/10">
+        <p class="text-xl font-bold text-dorado">3</p>
+        <p class="text-[11px] text-crema/40 uppercase">Pendientes</p>
+      </div>
+      <div class="bg-gris-carbon rounded-xl p-3 text-center border border-white/10">
+        <p class="text-xl font-bold text-green-500">2</p>
+        <p class="text-[11px] text-crema/40 uppercase">Completadas</p>
+      </div>
+      <div class="bg-gris-carbon rounded-xl p-3 text-center border border-white/10">
+        <p class="text-xl font-bold text-red-400">1</p>
+        <p class="text-[11px] text-crema/40 uppercase">Canceladas</p>
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <!-- Tarjeta de cita: pendiente -->
+      <div class="bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-3">
+        <div class="text-center w-12 shrink-0">
+          <p class="font-bold text-dorado text-sm">09:00</p>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold truncate">Juan Pérez</p>
+          <p class="text-crema/40 text-xs truncate">Corte de Cabello · Javier Revette</p>
+        </div>
+        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-dorado/15 text-dorado shrink-0">Pendiente</span>
+      </div>
+
+      <div class="bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-3">
+        <div class="text-center w-12 shrink-0">
+          <p class="font-bold text-dorado text-sm">10:30</p>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold truncate">Miguel Soto</p>
+          <p class="text-crema/40 text-xs truncate">Corte de Cabello con Barba · Javier Revette</p>
+        </div>
+        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-dorado/15 text-dorado shrink-0">Pendiente</span>
+      </div>
+
+      <div class="bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-3 opacity-60">
+        <div class="text-center w-12 shrink-0">
+          <p class="font-bold text-crema/40 text-sm line-through">11:00</p>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold truncate">Pedro Ávila</p>
+          <p class="text-crema/40 text-xs truncate">Corte de Cabello con Barba · Javier Revette</p>
+        </div>
+        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-red-500/15 text-red-400 shrink-0">Cancelada</span>
+      </div>
+
+      <div class="bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-3">
+        <div class="text-center w-12 shrink-0">
+          <p class="font-bold text-green-500 text-sm">12:00</p>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold truncate">Diego Ramos</p>
+          <p class="text-crema/40 text-xs truncate">Corte de Cabello · Javier Revette</p>
+        </div>
+        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-green-500/15 text-green-400 shrink-0">Completada</span>
+      </div>
+
+      <div class="bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-3">
+        <div class="text-center w-12 shrink-0">
+          <p class="font-bold text-green-500 text-sm">1:00</p>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold truncate">Sofía Vega</p>
+          <p class="text-crema/40 text-xs truncate">Corte de Cabello · Javier Revette</p>
+        </div>
+        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-green-500/15 text-green-400 shrink-0">Completada</span>
+      </div>
+
+      <div class="bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-3">
+        <div class="text-center w-12 shrink-0">
+          <p class="font-bold text-dorado text-sm">2:30</p>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold truncate">Tomás Rivas</p>
+          <p class="text-crema/40 text-xs truncate">Corte de Cabello con Barba · Javier Revette</p>
+        </div>
+        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-dorado/15 text-dorado shrink-0">Pendiente</span>
+      </div>
+    </div>
+  </section>
+
+  </div>
+</div>
+
+<script src="interactividad.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<app-barra-progreso [pasoActual]="3" [totalPasos]="4"></app-barra-progreso>
+
+<section class="px-5 pt-5 pb-4">
+  <h2 class="fuente-display text-2xl font-bold mb-1">Tus datos</h2>
+  <p class="text-crema/50 text-sm mb-5">Los usaremos solo para confirmar tu cita.</p>
+
+  <form [formGroup]="formulario" class="space-y-4">
+    <div>
+      <label class="text-xs font-semibold text-crema/50 uppercase tracking-wider mb-2 block">Nombre y apellido</label>
+      <input
+        type="text"
+        formControlName="nombreCompleto"
+        placeholder="Ej. Juan Pérez"
+        class="w-full bg-gris-carbon border border-white/10 rounded-xl px-4 py-3.5 text-crema placeholder-crema/25 focus:outline-none focus:border-dorado transition-colors"
+      />
+    </div>
+    <div>
+      <label class="text-xs font-semibold text-crema/50 uppercase tracking-wider mb-2 block">Nota adicional (opcional)</label>
+      <textarea
+        formControlName="notaAdicional"
+        rows="3"
+        placeholder="Ej. Prefiero corte bajo en los lados"
+        class="w-full bg-gris-carbon border border-white/10 rounded-xl px-4 py-3.5 text-crema placeholder-crema/25 focus:outline-none focus:border-dorado transition-colors resize-none"
+      ></textarea>
+    </div>
+  </form>
+</section>
+
+<app-boton-primario etiqueta="Revisar y Confirmar" (alPresionar)="continuar()"></app-boton-primario>

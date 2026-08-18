@@ -1,0 +1,64 @@
+# Blueprint de Render: crea de una sola vez el backend (Node), la base
+# de datos (PostgreSQL) y el frontend (sitio estático) descritos abajo.
+#
+# Cómo usarlo: en Render, "New +" -> "Blueprint" -> selecciona este
+# repositorio de GitHub -> Render detecta este archivo automáticamente.
+# Las variables marcadas con "sync: false" (los secretos de Telegram)
+# hay que completarlas a mano en el Dashboard de Render después de
+# crear los servicios -nunca se guardan en este archivo ni en git-.
+services:
+  - type: web
+    name: barberia-citas-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_DIALECTO
+        value: postgres
+      - key: DB_HOST
+        fromDatabase:
+          name: barberia-citas-db
+          property: host
+      - key: DB_PUERTO
+        fromDatabase:
+          name: barberia-citas-db
+          property: port
+      - key: DB_NOMBRE
+        fromDatabase:
+          name: barberia-citas-db
+          property: database
+      - key: DB_USUARIO
+        fromDatabase:
+          name: barberia-citas-db
+          property: user
+      - key: DB_CLAVE
+        fromDatabase:
+          name: barberia-citas-db
+          property: password
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID_BARBERIA
+        sync: false
+      - key: CORS_ORIGEN
+        sync: false
+
+  - type: web
+    name: barberia-citas-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist/barberia-citas-frontend/browser
+    routes:
+      # Necesario para que las rutas de Angular (/agendar/servicio, etc.)
+      # funcionen al recargar la página o entrar por link directo.
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+databases:
+  - name: barberia-citas-db
+    plan: free
