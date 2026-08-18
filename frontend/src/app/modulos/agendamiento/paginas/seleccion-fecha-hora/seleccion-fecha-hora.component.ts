@@ -110,16 +110,25 @@ export class SeleccionFechaHoraComponent implements OnInit, OnDestroy {
 
   private cargarHorarios(fecha: string): void {
     this.detenerActualizacionEnVivo();
-    this.citasApi.obtenerHorariosDisponibles(fecha).subscribe(horarios => (this.horarios = horarios));
+    this.solicitarHorarios(fecha);
 
     // Si el día elegido es hoy, las horas se van tachando a medida que
     // pasan, así que se refresca el listado periódicamente para verlo
     // en tiempo real sin tener que recargar la página.
     if (fecha === this.hoyIso) {
-      this.intervaloActualizacion = setInterval(() => {
-        this.citasApi.obtenerHorariosDisponibles(fecha).subscribe(horarios => (this.horarios = horarios));
-      }, INTERVALO_ACTUALIZACION_MS);
+      this.intervaloActualizacion = setInterval(() => this.solicitarHorarios(fecha), INTERVALO_ACTUALIZACION_MS);
     }
+  }
+
+  private solicitarHorarios(fecha: string): void {
+    this.citasApi.obtenerHorariosDisponibles(fecha).subscribe(horarios => {
+      // Si la respuesta tardó (ej. el backend "despertando" del plan
+      // gratuito) y mientras tanto el cliente ya eligió otro día, se
+      // descarta: ya no corresponde al día que está viendo en pantalla.
+      if (this.estado.fechaSeleccionada() === fecha) {
+        this.horarios = horarios;
+      }
+    });
   }
 
   private detenerActualizacionEnVivo(): void {

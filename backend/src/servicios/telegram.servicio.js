@@ -30,6 +30,10 @@ async function notificarNuevaCitaAlBarbero(cita) {
         text: mensaje,
         parse_mode: 'HTML',
       }),
+      // Si Telegram no responde, no dejar la petición colgada para
+      // siempre: eso hacía que "Confirmar Cita" se quedara pensando
+      // sin terminar nunca. A los 8s se corta y sigue como error de red.
+      signal: AbortSignal.timeout(8000),
     });
 
     if (!respuesta.ok) {
