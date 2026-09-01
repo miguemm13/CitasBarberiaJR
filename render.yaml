@@ -47,7 +47,7 @@ services:
         sync: false
 
   - type: web
-    name: barberia-citas-frontend
+    name: jrbarber-citas
     runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
