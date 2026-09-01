@@ -10,10 +10,7 @@
  * estas listas y reinicia el servidor.
  */
 
-const SERVICIOS_INICIALES = [
-  { nombre: 'Corte de Cabello', duracionMinutos: 30, precio: 10, icono: '✂️' },
-  { nombre: 'Corte de Cabello con Barba', duracionMinutos: 45, precio: 15, icono: '🪒' },
-];
+const SERVICIOS_INICIALES = [{ nombre: 'Corte de Cabello', duracionMinutos: 45, precio: 10, icono: '✂️' }];
 
 // El campo telegramChatId es opcional: si un barbero no tiene uno propio,
 // las notificaciones caen al chat/grupo general (TELEGRAM_CHAT_ID_BARBERIA en .env).
@@ -42,11 +39,26 @@ async function sembrarDatosIniciales() {
   }
 
   // Limpieza: borra cualquier servicio/barbero de pruebas anteriores
-  // que ya no esté en las listas de arriba.
+  // que ya no esté en las listas de arriba. Si algún registro viejo ya
+  // tiene citas asociadas, Postgres/SQLite rechaza el borrado por la
+  // llave foránea (ej. al quitar "Corte de Cabello con Barba" mientras
+  // existan citas de prueba con ese servicio) -en vez de tumbar el
+  // arranque del servidor por ese error, se marca como inactivo para
+  // que igual desaparezca de /api/servicios-.
   const nombresServicios = SERVICIOS_INICIALES.map(s => s.nombre);
   const nombresBarberos = BARBEROS_INICIALES.map(b => b.nombreCompleto);
-  await Servicio.destroy({ where: { nombre: { [Op.notIn]: nombresServicios } } });
-  await Barbero.destroy({ where: { nombreCompleto: { [Op.notIn]: nombresBarberos } } });
+  try {
+    await Servicio.destroy({ where: { nombre: { [Op.notIn]: nombresServicios } } });
+  } catch (error) {
+    console.warn('[Semillas] No se pudieron borrar servicios viejos (tienen citas asociadas), se marcan inactivos:', error.message);
+    await Servicio.update({ activo: false }, { where: { nombre: { [Op.notIn]: nombresServicios } } });
+  }
+  try {
+    await Barbero.destroy({ where: { nombreCompleto: { [Op.notIn]: nombresBarberos } } });
+  } catch (error) {
+    console.warn('[Semillas] No se pudieron borrar barberos viejos (tienen citas asociadas), se marcan no disponibles:', error.message);
+    await Barbero.update({ disponible: false }, { where: { nombreCompleto: { [Op.notIn]: nombresBarberos } } });
+  }
 }
 
 module.exports = { sembrarDatosIniciales, SERVICIOS_INICIALES, BARBEROS_INICIALES };

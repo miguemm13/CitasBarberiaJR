@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Barbería Nº7 · Agendar Cita</title>
+<title>JR Barber · Agendar Cita</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
 <script src="configuracion-tailwind.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,13 +38,11 @@
 
       <div class="flex items-center justify-between mb-8">
         <div class="w-11 h-11 rounded-full border border-dorado flex items-center justify-center">
-          <span class="fuente-display text-dorado font-bold">N7</span>
+          <span class="fuente-display text-dorado font-bold">JR</span>
         </div>
       </div>
 
-      <p class="text-dorado text-xs font-semibold tracking-[0.25em] uppercase mb-2">Barbería de alta gama</p>
-      <h1 class="fuente-display text-4xl font-bold leading-tight mb-3">Barbería<br/><span class="text-dorado">Nº7</span></h1>
-      <p class="text-crema/60 text-sm mb-6">Tradición, precisión y estilo en cada corte.</p>
+      <h1 class="fuente-display text-4xl font-bold leading-tight mb-3">JR Barber</h1>
 
       <div class="flex items-center gap-2 text-sm text-crema/70 mb-8">
         <span aria-hidden="true">📍</span>
@@ -58,17 +56,12 @@
 
     <!-- Vista previa rápida: servicios destacados -->
     <div class="px-6 mt-2">
-      <h2 class="text-sm font-semibold text-crema/50 uppercase tracking-wider mb-3">Servicios destacados</h2>
+      <h2 class="text-sm font-semibold text-crema/50 uppercase tracking-wider mb-3">Servicio</h2>
       <div class="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
         <div class="min-w-[140px] bg-gris-carbon rounded-xl p-4 border border-white/5">
           <p class="text-2xl mb-2">✂️</p>
           <p class="text-sm font-semibold">Corte de Cabello</p>
           <p class="text-dorado text-sm font-bold mt-1">$10</p>
-        </div>
-        <div class="min-w-[140px] bg-gris-carbon rounded-xl p-4 border border-white/5">
-          <p class="text-2xl mb-2">🪒</p>
-          <p class="text-sm font-semibold">Corte con Barba</p>
-          <p class="text-dorado text-sm font-bold mt-1">$15</p>
         </div>
       </div>
     </div>
@@ -85,25 +78,14 @@
 
     <div class="space-y-3" id="lista-servicios">
       <!-- Tarjeta de servicio -->
-      <button class="tarjeta-servicio w-full text-left bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-4 transition-colors" data-servicio="Corte de Cabello" data-precio="10" data-duracion="30">
+      <button class="tarjeta-servicio w-full text-left bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-4 transition-colors" data-servicio="Corte de Cabello" data-precio="10" data-duracion="45">
         <div class="w-12 h-12 rounded-lg bg-negro-mate flex items-center justify-center text-xl shrink-0">✂️</div>
         <div class="flex-1">
           <p class="font-semibold">Corte de Cabello</p>
-          <p class="text-crema/40 text-xs mt-0.5">⏱ 30 min</p>
-        </div>
-        <div class="text-right">
-          <p class="text-dorado font-bold">$10</p>
-        </div>
-      </button>
-
-      <button class="tarjeta-servicio w-full text-left bg-gris-carbon border border-white/10 rounded-xl p-4 flex items-center gap-4 transition-colors" data-servicio="Corte de Cabello con Barba" data-precio="15" data-duracion="45">
-        <div class="w-12 h-12 rounded-lg bg-negro-mate flex items-center justify-center text-xl shrink-0">🪒</div>
-        <div class="flex-1">
-          <p class="font-semibold">Corte de Cabello con Barba</p>
           <p class="text-crema/40 text-xs mt-0.5">⏱ 45 min</p>
         </div>
         <div class="text-right">
-          <p class="text-dorado font-bold">$15</p>
+          <p class="text-dorado font-bold">$10</p>
         </div>
       </button>
     </div>
@@ -134,17 +116,15 @@
     <p class="text-sm font-semibold text-crema/50 uppercase tracking-wider mb-3">Horarios disponibles</p>
     <div class="grid grid-cols-3 gap-2 mb-4" id="grid-horarios">
       <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="10:00">10:00</button>
-      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="10:30">10:30</button>
       <button class="py-3 rounded-lg bg-gris-carbon/30 text-crema/20 text-sm font-medium line-through cursor-not-allowed" disabled>11:00</button>
-      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="11:30">11:30</button>
-      <button class="py-3 rounded-lg bg-gris-carbon/30 text-crema/20 text-sm font-medium line-through cursor-not-allowed" disabled>12:00</button>
-      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="12:30">12:30</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="12:00">12:00</button>
       <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="1:00">1:00</button>
-      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="1:30">1:30</button>
       <button class="py-3 rounded-lg bg-gris-carbon/30 text-crema/20 text-sm font-medium line-through cursor-not-allowed" disabled>2:00</button>
-      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="2:30">2:30</button>
       <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="3:00">3:00</button>
-      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="3:30">3:30</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="4:00">4:00</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="5:00">5:00</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="6:00">6:00</button>
+      <button class="hora-slot py-3 rounded-lg bg-gris-carbon border border-white/10 text-sm font-medium" data-hora="7:00">7:00</button>
     </div>
     <p class="text-xs text-crema/30 flex items-center gap-1.5"><span class="w-2 h-2 rounded bg-gris-carbon/30 inline-block"></span> Horarios tachados ya están ocupados · Horario: 10am a 8pm</p>
 
@@ -288,7 +268,7 @@
         </div>
         <div class="flex-1 min-w-0">
           <p class="font-semibold truncate">Miguel Soto</p>
-          <p class="text-crema/40 text-xs truncate">Corte de Cabello con Barba · Javier Revette</p>
+          <p class="text-crema/40 text-xs truncate">Corte de Cabello · Javier Revette</p>
         </div>
         <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-dorado/15 text-dorado shrink-0">Pendiente</span>
       </div>
@@ -299,7 +279,7 @@
         </div>
         <div class="flex-1 min-w-0">
           <p class="font-semibold truncate">Pedro Ávila</p>
-          <p class="text-crema/40 text-xs truncate">Corte de Cabello con Barba · Javier Revette</p>
+          <p class="text-crema/40 text-xs truncate">Corte de Cabello · Javier Revette</p>
         </div>
         <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-red-500/15 text-red-400 shrink-0">Cancelada</span>
       </div>
@@ -332,7 +312,7 @@
         </div>
         <div class="flex-1 min-w-0">
           <p class="font-semibold truncate">Tomás Rivas</p>
-          <p class="text-crema/40 text-xs truncate">Corte de Cabello con Barba · Javier Revette</p>
+          <p class="text-crema/40 text-xs truncate">Corte de Cabello · Javier Revette</p>
         </div>
         <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-dorado/15 text-dorado shrink-0">Pendiente</span>
       </div>

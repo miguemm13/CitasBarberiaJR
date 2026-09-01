@@ -163,7 +163,8 @@ export class SeleccionFechaHoraComponent implements OnInit, OnDestroy {
     for (let dia = 1; dia <= diasEnMes; dia++) {
       const fechaCelda = new Date(anio, mes, dia);
       const esPasado = fechaCelda < this.hoy;
-      const esDomingo = fechaCelda.getDay() === 0; // domingo cerrado, ejemplo
+      // Abierto todos los días de la semana (lunes a lunes), sin día de
+      // descanso.
       celdas.push({
         // dayjs().format() usa los componentes locales de la fecha
         // (año/mes/día), a diferencia de toISOString() que convierte a
@@ -171,7 +172,7 @@ export class SeleccionFechaHoraComponent implements OnInit, OnDestroy {
         // del navegador del cliente.
         fecha: dayjs(fechaCelda).format('YYYY-MM-DD'),
         numero: dia,
-        habilitado: !esPasado && !esDomingo,
+        habilitado: !esPasado,
       });
     }
     while (celdas.length % 7 !== 0) {

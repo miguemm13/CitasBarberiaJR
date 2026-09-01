@@ -95,12 +95,13 @@ function renderizarCalendario() {
   for (let dia = 1; dia <= diasEnMes; dia++) {
     const fecha = new Date(anio, mes, dia);
     const esPasado = fecha < hoy;
-    const esDomingo = fecha.getDay() === 0; // domingo cerrado, ejemplo
+    // Abierto todos los días de la semana (lunes a lunes), sin día de
+    // descanso.
     celdas.push({
       dia,
       iso: formatearFechaIso(fecha),
       etiqueta: `${NOMBRES_DIAS[fecha.getDay()]} ${dia}`,
-      habilitado: !esPasado && !esDomingo,
+      habilitado: !esPasado,
     });
   }
 

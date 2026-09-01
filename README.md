@@ -115,7 +115,7 @@ Nuevos recursos (ej. "promociones", "reseñas") siguen el mismo patrón: un mode
 No hace falta cargar nada a mano: `src/semillas.js` define el barbero y los servicios de la barbería, y `servidor.js` los crea automáticamente cada vez que arranca (si ya existen, no los duplica). Por ahora son:
 
 - Barbero: **Javier Revette**
-- Servicios: **Corte de Cabello** ($10) y **Corte de Cabello con Barba** ($15)
+- Servicio: **Corte de Cabello** ($10, ~45 min)
 
 Para agregar más barberos o servicios, edítalos directamente en `backend/src/semillas.js` y reinicia el servidor. Al reiniciar, cualquier barbero o servicio que ya no esté en esas listas se borra automáticamente, así no quedan datos de pruebas anteriores.
 
@@ -125,7 +125,9 @@ El formulario del Paso 3 solo pide **nombre y apellido**, más una nota opcional
 
 ### Horario de atención
 
-Fijo por ahora en `servicios/disponibilidad.servicio.js`: de **10:00 a 20:00** (10am a 8pm), en bloques de 30 minutos. Las horas de la tarde se muestran en formato de 12 horas sin am/pm (13:00 se ve como "1:00", 14:00 como "2:00", etc.) — no genera ambigüedad porque ese rango horario nunca repite un mismo número entre la mañana y la tarde.
+Fijo por ahora en `servicios/disponibilidad.servicio.js`: de **10:00 a 20:00** (10am a 8pm), en bloques de **1 hora** (un turno por cita). Las horas de la tarde se muestran en formato de 12 horas sin am/pm (13:00 se ve como "1:00", 14:00 como "2:00", etc.) — no genera ambigüedad porque ese rango horario nunca repite un mismo número entre la mañana y la tarde.
+
+Las horas ya pasadas del día de hoy se tachan automáticamente usando la hora de **Venezuela** (`America/Caracas`, ver `src/utilidades/hora-venezuela.js`), sin importar en qué zona horaria esté corriendo el servidor (ej. Render usa UTC).
 
 ## Cómo conectar todo
 

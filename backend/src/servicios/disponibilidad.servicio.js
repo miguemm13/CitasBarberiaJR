@@ -1,20 +1,22 @@
-const dayjs = require('dayjs');
 const { Cita } = require('../modelos');
 const { Op } = require('sequelize');
+const { ahoraEnVenezuela } = require('../utilidades/hora-venezuela');
 
 // Horario de atención: 10:00 a 20:00 (10am a 8pm), por ahora fijo.
+// Un turno por hora (antes eran bloques de 30 min): cada corte dura
+// aprox. 45 min, así que se deja una hora completa por cita.
 const HORA_APERTURA = 10;
 const HORA_CIERRE = 20;
-const INTERVALO_MINUTOS = 30;
+const INTERVALO_MINUTOS = 60;
 
 /**
  * Servicio de negocio: calcula los bloques horarios de un día,
  * marcando como no disponibles los que ya tienen una cita
  * pendiente o completada para el barbero solicitado. Si la fecha
  * consultada es el día de hoy, además marca como no disponibles
- * (tachadas) las horas que ya pasaron, usando la hora exacta del
- * servidor -no la del dispositivo del cliente-, para que se vean
- * en tiempo real a medida que avanza el reloj.
+ * (tachadas) las horas que ya pasaron, usando la hora exacta de
+ * Venezuela -no la del servidor ni la del dispositivo del cliente-,
+ * para que se vean en tiempo real a medida que avanza el reloj.
  */
 async function obtenerHorariosDisponibles(fecha, barberoId) {
   const filtro = { fecha, estado: { [Op.ne]: 'cancelada' } };
@@ -23,7 +25,7 @@ async function obtenerHorariosDisponibles(fecha, barberoId) {
   const citasDelDia = await Cita.findAll({ where: filtro, attributes: ['hora'] });
   const horasOcupadas = new Set(citasDelDia.map(cita => cita.hora));
 
-  const ahora = dayjs();
+  const ahora = ahoraEnVenezuela();
   const esHoy = fecha === ahora.format('YYYY-MM-DD');
   const minutosActuales = ahora.hour() * 60 + ahora.minute();
 
