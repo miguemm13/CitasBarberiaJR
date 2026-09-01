@@ -51,7 +51,7 @@ services:
     runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
-    staticPublishPath: dist/barberia-citas-frontend/browser
+    staticPublishPath: dist/barberia-citas-frontend
     routes:
       # Necesario para que las rutas de Angular (/agendar/servicio, etc.)
       # funcionen al recargar la página o entrar por link directo.
