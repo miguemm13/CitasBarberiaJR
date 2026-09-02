@@ -9,10 +9,11 @@ const telegramServicio = require('../servicios/telegram.servicio');
  */
 
 async function obtenerDisponibilidad(peticion, respuesta) {
-  const { fecha, barberoId } = peticion.query;
+  const { fecha, barberoId, duracionMinutos } = peticion.query;
   if (!fecha) return respuesta.status(400).json({ mensaje: 'El parámetro fecha es requerido' });
 
-  const horarios = await disponibilidadServicio.obtenerHorariosDisponibles(fecha, barberoId);
+  const duracion = duracionMinutos ? Number(duracionMinutos) : undefined;
+  const horarios = await disponibilidadServicio.obtenerHorariosDisponibles(fecha, barberoId, duracion);
   respuesta.json(horarios);
 }
 
@@ -30,7 +31,20 @@ async function crear(peticion, respuesta) {
       : await Barbero.findOne({ where: { disponible: true } });
   if (!barbero) return respuesta.status(400).json({ mensaje: 'Barbero no disponible' });
 
-  const registroCliente = await Cliente.create({ nombreCompleto: cliente.nombreCompleto });
+  // Segundo chequeo de disponibilidad, ya del lado del servidor:
+  // evita que dos clientes agenden el mismo bloque si mandan la
+  // petición casi al mismo tiempo, y garantiza que un servicio largo
+  // (ej. Mechas tradicionales, 3h) realmente bloquee esas 3 horas.
+  const duracionTotal = servicios.reduce((suma, servicio) => suma + servicio.duracionMinutos, 0);
+  const disponible = await disponibilidadServicio.horarioDisponible(fecha, barbero.id, hora, duracionTotal);
+  if (!disponible) {
+    return respuesta.status(409).json({ mensaje: 'Ese horario ya no está disponible, elige otro.' });
+  }
+
+  const registroCliente = await Cliente.create({
+    nombreCompleto: cliente.nombreCompleto,
+    telefono: cliente.telefono, // ya viene normalizado desde validar-cita.js
+  });
 
   const precioTotal = servicios.reduce((suma, servicio) => suma + Number(servicio.precio), 0);
 

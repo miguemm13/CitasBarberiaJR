@@ -27,6 +27,9 @@ Cita.init(
     },
     notaAdicional: { type: DataTypes.STRING, allowNull: true },
     precioTotal: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
+    // Evita mandar el recordatorio de WhatsApp más de una vez por
+    // cita (ver servicios/recordatorio.servicio.js).
+    recordatorioEnviado: { type: DataTypes.BOOLEAN, defaultValue: false },
   },
   {
     sequelize: secuelize,

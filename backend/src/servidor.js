@@ -2,6 +2,7 @@ const app = require('./app');
 const secuelize = require('./config/base-datos');
 const variablesEntorno = require('./config/variables-entorno');
 const { sembrarDatosIniciales } = require('./semillas');
+const { iniciarRecordatorios } = require('./servicios/recordatorio.servicio');
 require('./modelos'); // registra los modelos y sus asociaciones
 
 async function iniciar() {
@@ -34,6 +35,10 @@ async function iniciar() {
     // Crea el barbero y los servicios iniciales si todavía no existen,
     // así no hay que cargar nada a mano antes de usar la app.
     await sembrarDatosIniciales();
+
+    // Revisor periódico de recordatorios (avisa al barbero ~1h antes
+    // de cada cita, con botón para reenviar por WhatsApp).
+    iniciarRecordatorios();
 
     app.listen(variablesEntorno.puerto, () => {
       console.log(`Servidor de Barbería Citas escuchando en el puerto ${variablesEntorno.puerto}`);

@@ -10,7 +10,10 @@
  * estas listas y reinicia el servidor.
  */
 
-const SERVICIOS_INICIALES = [{ nombre: 'Corte de Cabello', duracionMinutos: 45, precio: 10, icono: '✂️' }];
+const SERVICIOS_INICIALES = [
+  { nombre: 'Corte de Cabello', duracionMinutos: 45, precio: 10, icono: '✂️' },
+  { nombre: 'Mechas tradicionales', duracionMinutos: 180, precio: 40, icono: '🎨' },
+];
 
 // El campo telegramChatId es opcional: si un barbero no tiene uno propio,
 // las notificaciones caen al chat/grupo general (TELEGRAM_CHAT_ID_BARBERIA en .env).
