@@ -16,4 +16,8 @@ enrutador.use('/barberos', require('./barberos.rutas'));
 enrutador.use('/citas', require('./citas.rutas'));
 enrutador.use('/sistema', require('./sistema.rutas'));
 
+// Ruta temporal para resetear la base en producción (ver admin.controlador.js).
+// BORRAR esta línea junto con el controlador cuando ya no haga falta.
+enrutador.get('/admin/resetear-base', require('../controladores/admin.controlador').resetearBase);
+
 module.exports = enrutador;
