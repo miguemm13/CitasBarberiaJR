@@ -106,6 +106,14 @@ Cuando el cliente confirma una cita (Paso 4), el backend le avisa al barbero por
 
 Si `TELEGRAM_BOT_TOKEN` o el chat id no están configurados, la cita se crea igual — el envío del mensaje simplemente se omite y queda un aviso en la consola del servidor.
 
+### Recordatorio al barbero por WhatsApp (1 hora antes)
+
+Además del aviso de "nueva cita", el backend revisa cada 5 minutos (`servicios/recordatorio.servicio.js`) si hay alguna cita de **hoy** a la que le falte aproximadamente 1 hora para empezar. Cuando encuentra una, le manda al barbero otro mensaje de Telegram, pero esta vez con un botón **"📲 Recordar por WhatsApp"**.
+
+Ese botón es un link de WhatsApp (`wa.me`) con el número del cliente y un mensaje ya redactado. Al tocarlo desde el teléfono, abre WhatsApp directo en ese chat con el texto listo — el barbero solo tiene que darle **Enviar**. No usa la API oficial de WhatsApp Business ni requiere ninguna cuenta ni configuración aparte, solo el número de teléfono del cliente (que ahora es obligatorio en el Paso 3).
+
+Cada cita solo dispara este aviso una vez (columna `recordatorioEnviado` en el modelo `Cita`), así que no llega repetido en cada revisión.
+
 ### Escalabilidad del backend
 
 Nuevos recursos (ej. "promociones", "reseñas") siguen el mismo patrón: un modelo en `modelos/`, su controlador en `controladores/`, su archivo de rutas en `rutas/` registrado en `rutas/index.js`, y la lógica de negocio compleja aislada en `servicios/`.
@@ -121,7 +129,7 @@ Para agregar más barberos o servicios, edítalos directamente en `backend/src/s
 
 ### Datos del cliente
 
-El formulario del Paso 3 solo pide **nombre y apellido**, más una nota opcional — no se pide teléfono. El modelo `Cliente` en el backend ya no tiene campo `telefono`.
+El formulario del Paso 3 pide **nombre y apellido**, **teléfono** (formato venezolano, ej. `0412-1234567` — acepta el 0 inicial como se marca localmente) y una nota opcional. El teléfono es obligatorio porque lo usa el recordatorio por WhatsApp (ver sección arriba). La validación y normalización del número vive en `backend/src/utilidades/telefono-venezuela.js`.
 
 ### Horario de atención
 

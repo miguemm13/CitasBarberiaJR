@@ -16,9 +16,12 @@ export class CitasService {
   private readonly http = inject(HttpClient);
   private readonly urlBase = `${environment.apiUrl}/citas`;
 
-  obtenerHorariosDisponibles(fecha: string, barberoId?: string): Observable<HorarioDisponible[]> {
+  obtenerHorariosDisponibles(fecha: string, duracionMinutos?: number, barberoId?: string): Observable<HorarioDisponible[]> {
     const parametroBarbero = barberoId ? `&barberoId=${barberoId}` : '';
-    return this.http.get<HorarioDisponible[]>(`${this.urlBase}/disponibilidad?fecha=${fecha}${parametroBarbero}`);
+    const parametroDuracion = duracionMinutos ? `&duracionMinutos=${duracionMinutos}` : '';
+    return this.http.get<HorarioDisponible[]>(
+      `${this.urlBase}/disponibilidad?fecha=${fecha}${parametroDuracion}${parametroBarbero}`
+    );
   }
 
   crear(peticion: NuevaCitaPeticion): Observable<Cita> {

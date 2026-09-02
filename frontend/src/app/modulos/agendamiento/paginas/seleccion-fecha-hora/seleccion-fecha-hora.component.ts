@@ -121,7 +121,8 @@ export class SeleccionFechaHoraComponent implements OnInit, OnDestroy {
   }
 
   private solicitarHorarios(fecha: string): void {
-    this.citasApi.obtenerHorariosDisponibles(fecha).subscribe(horarios => {
+    const duracionMinutos = this.estado.duracionTotalMinutos();
+    this.citasApi.obtenerHorariosDisponibles(fecha, duracionMinutos).subscribe(horarios => {
       // Si la respuesta tardó (ej. el backend "despertando" del plan
       // gratuito) y mientras tanto el cliente ya eligió otro día, se
       // descarta: ya no corresponde al día que está viendo en pantalla.
